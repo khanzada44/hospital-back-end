@@ -11,7 +11,7 @@ exports.findAllUsers = async (req, res, next) => {
     }
     else {
         try {
-            const users = await adminRepository.getAllUsers(req, res);
+            const users = await adminRepository.findUsersByFilters(req.query);
             if (!users) {
                 throw new AppError("No users found", 404);
             }

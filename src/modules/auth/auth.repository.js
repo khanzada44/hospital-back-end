@@ -21,8 +21,10 @@ exports.createUser = async ({ id, email, password, role }) => {
 exports.saveRefreshToken = async ({ user_uuid, token, expires_at }) => {
     const query = `INSERT INTO refresh_tokens (user_uuid, token, expires_at)
         VALUES ($1, $2, $3)
+        ON CONFLICT (user_uuid) DO UPDATE SET 
+        token = EXCLUDED.token,
+        expires_at = EXCLUDED.expires_at
         RETURNING user_uuid, token, expires_at`;
-
     const result = await db.query(query, [user_uuid, token, expires_at]);
 
     return result.rows[0];

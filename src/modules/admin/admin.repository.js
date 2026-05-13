@@ -2,25 +2,33 @@ const db = require("../../config/db");
 const AppError = require("../../common/utils/app-error");
 
 
-exports.getAllUsers = async (req, res) => {
-    try {
-        const role = req.query.role; 
-        const limit = req.query.limit;
-        let query = `SELECT id, email, role, created_at FROM users`;
+exports.findUsersByFilters = async (filters) => {
 
-        if (role) {
-            query += `WHERE role = $1`;
-        } 
-        if(limit){
-            query += `LIMIT ${limit}`;
-        }
-        const result = await db.query(query, [role]);
-        return result.rows;
+    const {role, limit = 10, offset = 0} = filters;
 
+    let query = `SELECT id, email, role, created_at FROM users`;
+
+    const values = [];
+    const conditions = [];
+
+    if (role) {
+        values.push(role);
+        conditions.push(`role = $${values.length}`);
     }
-     catch (error) {
-        throw new AppError("Error occurred while retrieving users", 500);
+
+    if (conditions.length) {
+        query += ` WHERE ${conditions.join(" AND ")}`;
     }
+
+    query += ` ORDER BY created_at DESC`;
+
+    values.push(limit);
+    query += ` LIMIT $${values.length}`;
+
+    values.push(offset);
+    query += ` OFFSET $${values.length}`;
+
+    const result = await db.query(query, values);
+
+    return result.rows;
 };
-
-
