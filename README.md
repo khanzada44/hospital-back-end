@@ -1,10 +1,9 @@
--Project Title
 # Hospital Backend API
 
--Short Description
+# Short Description
 A Node.js + Express + PostgreSQL based backend system for hospital management with authentication, role-based access control, and error handling middleware.
 
--Tech Stack
+# Tech Stack
 - Node.js
 - Express.js
 - PostgreSQL
