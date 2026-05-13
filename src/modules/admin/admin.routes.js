@@ -5,5 +5,7 @@ const adminController = require("./admin.controller");
 
  
 router.get("/users", authMiddleware, adminController.getAllUsers);  
+router.post("/add-new-role", authMiddleware, adminController.addNewUser);  
+router.post("/users/:id", authMiddleware, adminController.archivedUser);  
 
 module.exports = router;

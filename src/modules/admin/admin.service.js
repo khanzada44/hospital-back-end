@@ -2,6 +2,7 @@ const env = require("../../config/env");
 const AppError = require("../../common/utils/app-error");
 const adminRepository = require("./admin.repository");
 const responseHelper = require('../../common/helpers/response.helper');
+const e = require("express");
 
 
 exports.findAllUsers = async (req, res, next) => {
@@ -22,4 +23,16 @@ exports.findAllUsers = async (req, res, next) => {
         }
     }
 
+};
+exports.archivedUser = async (userId) => {
+    try {
+        const archivedUser = await adminRepository.archivedUserById(userId);
+        if (!archivedUser) {
+            throw new AppError("User not found", 404);
+        }
+        return archivedUser;
+    }
+    catch (error) {
+        throw error;
+    }   
 };

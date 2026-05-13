@@ -3,7 +3,7 @@ const AppError = require("../../common/utils/app-error");
 
 
 exports.findUsersByFilters = async (filters) => {
-
+    console.log('filters:', filters);
     const {role, limit = 10, offset = 0} = filters;
 
     let query = `SELECT id, email, role, created_at FROM users`;
@@ -32,3 +32,8 @@ exports.findUsersByFilters = async (filters) => {
 
     return result.rows;
 };
+exports.archivedUserById = async (userId) => {
+    const query = `UPDATE users set status = 'archived', created_at = NOW() where user_id = $1`;
+    const result = await db.query(query, [userId]);
+    return result.rows[0];
+}
