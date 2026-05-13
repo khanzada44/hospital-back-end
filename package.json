@@ -24,5 +24,14 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khanzada44/hospital-back-end.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/khanzada44/hospital-back-end/issues"
+  },
+  "homepage": "https://github.com/khanzada44/hospital-back-end#readme"
 }

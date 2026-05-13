@@ -1,6 +1,6 @@
-const AppError = require("./utils/AppError");
+const AppError = require("../utils/app-error");
 
-app.use((err, req, res, next) => {
+const errorMiddleware = (err, req, res, next) => {
 
     let statusCode = err.statusCode || 500;
     let message = err.message || "Internal Server Error";
@@ -15,12 +15,14 @@ app.use((err, req, res, next) => {
         });
     }
 
+    // PostgreSQL duplicate
     if (err.code === "23505") {
         return res.status(409).json({
             success: false,
             message: "Duplicate field value"
         });
     }
+
 
     if (err.code === "22P02") {
         return res.status(400).json({
@@ -33,4 +35,6 @@ app.use((err, req, res, next) => {
         success: false,
         message: "Internal Server Error"
     });
-});
+};
+
+module.exports = errorMiddleware;
